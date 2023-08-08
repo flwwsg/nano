@@ -11,3 +11,9 @@ go install github.com/golang/protobuf/protoc-gen-go@latest
 #### 编译 proto file
 
 protoc --go_out=.. --proto_path=. *.proto
+
+
+#### js 
+#### 安装 protobufjs-cli  protobufjs
+生成 proto js文件
+pbjs -t static-module -w commonjs -o ./web/proto.js ./proto/*.proto
