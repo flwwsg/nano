@@ -1,8 +1,0 @@
-syntax = "proto3";
-package chatpb;
-option go_package = "/protocol";
-
-message JoinResponse {
-  int32 code = 1;
-  string result = 2;
-}

@@ -1,7 +1,0 @@
-syntax = "proto3";
-package chatpb;
-option go_package = "/protocol";
-
-message NewUser {
-  string content = 1;
-}

@@ -1,7 +1,0 @@
-syntax = "proto3";
-package chatpb;
-option go_package = "/protocol";
-
-message AllMembers {
-  repeated int64 members = 1;
-}
