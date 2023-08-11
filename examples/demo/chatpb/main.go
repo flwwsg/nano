@@ -122,7 +122,7 @@ func (mgr *RoomManager) Join(s *session.Session, msg []byte) error {
 	room.group.Broadcast("onNewUser", &protocol.NewUser{Content: fmt.Sprintf("New user: %d", s.ID())})
 	// new user join group
 	room.group.Add(s) // add session to group
-	return s.Response(&protocol.JoinResponse{Result: "success"})
+	return s.Response(&protocol.JoinResponse{Result: "success", Code: 200})
 }
 
 // Message sync last message to all members
