@@ -5,6 +5,10 @@ https://learnku.com/articles/37623
 下载二进制文件 protoc
 https://github.com/protocolbuffers/protobuf
 
+### 添加 go 代理
+go env -w GO111MODULE=on
+go env -w GOPROXY=https://goproxy.cn,direct
+
 #### 安装  protoc-gen-go.exe (protoc)
 go install github.com/golang/protobuf/protoc-gen-go@latest
 
