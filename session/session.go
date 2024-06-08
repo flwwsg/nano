@@ -42,7 +42,7 @@ type NetworkEntity interface {
 }
 
 var (
-	//ErrIllegalUID represents a invalid uid
+	// ErrIllegalUID represents a invalid uid
 	ErrIllegalUID = errors.New("illegal uid")
 )
 
@@ -57,7 +57,8 @@ type Session struct {
 	lastTime     int64                  // last heartbeat time
 	entity       NetworkEntity          // low-level network entity
 	data         map[string]interface{} // session data store
-	router       *Router
+	router       *Router                // route
+	playerId     string                 // 玩家 id (支持mongo)
 }
 
 // New returns a new session instance
@@ -69,6 +70,7 @@ func New(entity NetworkEntity) *Session {
 		data:     make(map[string]interface{}),
 		lastTime: time.Now().Unix(),
 		router:   newRouter(),
+		playerId: "",
 	}
 }
 
@@ -416,4 +418,28 @@ func (s *Session) Clear() {
 
 	s.uid = 0
 	s.data = map[string]interface{}{}
+}
+
+// BindPlayerId 绑定string id
+func (s *Session) BindPlayerId(playerId string) {
+	s.playerId = playerId
+}
+
+// PlayerId 获取 string id
+func (s *Session) PlayerId() string {
+	return s.playerId
+}
+
+// Route 获取请求的路由
+func (s *Session) Route() string {
+	v := s.Value("_route")
+	if v != nil {
+		return v.(string)
+	}
+	return ""
+}
+
+// SetRoute 设置 route
+func (s *Session) SetRoute(val string) {
+	s.Set("_route", val)
 }

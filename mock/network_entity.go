@@ -23,6 +23,7 @@ package mock
 import (
 	"fmt"
 	"net"
+	"slices"
 )
 
 // NetAddr mock the net.Addr interface
@@ -115,6 +116,26 @@ func (n *NetworkEntity) FindResponseByMID(mid uint64) interface{} {
 func (n *NetworkEntity) FindResponseByRoute(route string) interface{} {
 	for i := range n.messages {
 		if n.messages[i].route == route {
+			return n.messages[i].data
+		}
+	}
+	return nil
+}
+
+// FindLastResponseByRoute 根据 route 获取最后 push 的消息, isRemove 是否删除
+func (n *NetworkEntity) FindLastResponseByRoute(route string, isRemove bool) interface{} {
+	length := len(n.messages)
+	if length < 1 {
+		return nil
+	}
+	for i := length - 1; i >= 0; i-- {
+		if n.messages[i].route == route {
+			if isRemove {
+				// 删除
+				msg := n.messages[i].data
+				slices.Delete(n.messages, i, i+1)
+				return msg
+			}
 			return n.messages[i].data
 		}
 	}

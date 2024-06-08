@@ -312,6 +312,8 @@ func (h *LocalHandler) processPacket(agent *agent, p *packet.Packet) error {
 
 	case packet.Heartbeat:
 		// expected
+	default:
+		log.Println("unhandled packet type:", p.Type)
 	}
 
 	agent.lastAt = time.Now().Unix()
@@ -471,7 +473,8 @@ func (h *LocalHandler) localProcess(handler *component.Handler, lastMid uint64, 
 		case *acceptor:
 			v.lastMid = lastMid
 		}
-
+		// 设置请求的 route，scheduler是一个队列，按顺序执行，可以同时处理多个请求
+		session.SetRoute(msg.Route)
 		result := handler.Method.Func.Call(args)
 		if len(result) > 0 {
 			if err := result[0].Interface(); err != nil {
