@@ -25,9 +25,9 @@ import (
 	"net"
 	"sync"
 
-	"github.com/lonng/nano/internal/codec"
-	"github.com/lonng/nano/internal/message"
-	"github.com/lonng/nano/internal/packet"
+	"github.com/flwwsg/nano/internal/codec"
+	"github.com/flwwsg/nano/internal/message"
+	"github.com/flwwsg/nano/internal/packet"
 	"google.golang.org/protobuf/proto"
 )
 
@@ -197,7 +197,7 @@ func (c *Connector) sendMessage(msg *message.Message) error {
 		return err
 	}
 
-	//log.Printf("%+v",msg)
+	// log.Printf("%+v",msg)
 
 	payload, err := codec.Encode(packet.Data, data)
 	if err != nil {

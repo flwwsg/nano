@@ -32,17 +32,17 @@ import (
 	"sync"
 	"time"
 
+	"github.com/flwwsg/nano/cluster/clusterpb"
+	"github.com/flwwsg/nano/component"
+	"github.com/flwwsg/nano/internal/codec"
+	"github.com/flwwsg/nano/internal/env"
+	"github.com/flwwsg/nano/internal/log"
+	"github.com/flwwsg/nano/internal/message"
+	"github.com/flwwsg/nano/internal/packet"
+	"github.com/flwwsg/nano/pipeline"
+	"github.com/flwwsg/nano/scheduler"
+	"github.com/flwwsg/nano/session"
 	"github.com/gorilla/websocket"
-	"github.com/lonng/nano/cluster/clusterpb"
-	"github.com/lonng/nano/component"
-	"github.com/lonng/nano/internal/codec"
-	"github.com/lonng/nano/internal/env"
-	"github.com/lonng/nano/internal/log"
-	"github.com/lonng/nano/internal/message"
-	"github.com/lonng/nano/internal/packet"
-	"github.com/lonng/nano/pipeline"
-	"github.com/lonng/nano/scheduler"
-	"github.com/lonng/nano/session"
 )
 
 var (
@@ -411,6 +411,14 @@ func (h *LocalHandler) remoteProcess(session *session.Session, msg *message.Mess
 }
 
 func (h *LocalHandler) processMessage(agent *agent, msg *message.Message) {
+	if h.currentNode.Options.IsValidRequest != nil {
+		isValid := h.currentNode.Options.IsValidRequest(msg.Route, agent.session.UID())
+		if !isValid {
+			// 断开无效连接
+			println("invalid route:", msg.Route)
+			_ = agent.Close()
+		}
+	}
 	var lastMid uint64
 	switch msg.Type {
 	case message.Request:

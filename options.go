@@ -4,14 +4,14 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/lonng/nano/cluster"
-	"github.com/lonng/nano/component"
-	"github.com/lonng/nano/internal/env"
-	"github.com/lonng/nano/internal/log"
-	"github.com/lonng/nano/internal/message"
-	"github.com/lonng/nano/pipeline"
-	"github.com/lonng/nano/serialize"
-	"github.com/lonng/nano/service"
+	"github.com/flwwsg/nano/cluster"
+	"github.com/flwwsg/nano/component"
+	"github.com/flwwsg/nano/internal/env"
+	"github.com/flwwsg/nano/internal/log"
+	"github.com/flwwsg/nano/internal/message"
+	"github.com/flwwsg/nano/pipeline"
+	"github.com/flwwsg/nano/serialize"
+	"github.com/flwwsg/nano/service"
 	"google.golang.org/grpc"
 )
 
@@ -172,5 +172,12 @@ func WithNodeId(nodeId uint64) Option {
 func WithUnregisterCallback(fn func(member cluster.Member)) Option {
 	return func(opt *cluster.Options) {
 		opt.UnregisterCallback = fn
+	}
+}
+
+// WithRequestValidator 登录检查
+func WithRequestValidator(fn func(route string, uid int64) bool) Option {
+	return func(options *cluster.Options) {
+		options.IsValidRequest = fn
 	}
 }

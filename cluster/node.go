@@ -30,15 +30,15 @@ import (
 	"sync"
 	"time"
 
+	"github.com/flwwsg/nano/cluster/clusterpb"
+	"github.com/flwwsg/nano/component"
+	"github.com/flwwsg/nano/internal/env"
+	"github.com/flwwsg/nano/internal/log"
+	"github.com/flwwsg/nano/internal/message"
+	"github.com/flwwsg/nano/pipeline"
+	"github.com/flwwsg/nano/scheduler"
+	"github.com/flwwsg/nano/session"
 	"github.com/gorilla/websocket"
-	"github.com/lonng/nano/cluster/clusterpb"
-	"github.com/lonng/nano/component"
-	"github.com/lonng/nano/internal/env"
-	"github.com/lonng/nano/internal/log"
-	"github.com/lonng/nano/internal/message"
-	"github.com/lonng/nano/pipeline"
-	"github.com/lonng/nano/scheduler"
-	"github.com/lonng/nano/session"
 	"google.golang.org/grpc"
 )
 
@@ -56,6 +56,7 @@ type Options struct {
 	TSLKey             string
 	UnregisterCallback func(Member)
 	RemoteServiceRoute CustomerRemoteServiceRoute
+	IsValidRequest     func(route string, uid int64) bool // 检查用户是否登录
 }
 
 // Node represents a node in nano cluster, which will contains a group of services.

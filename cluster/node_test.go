@@ -4,12 +4,12 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/lonng/nano/benchmark/io"
-	"github.com/lonng/nano/benchmark/testdata"
-	"github.com/lonng/nano/cluster"
-	"github.com/lonng/nano/component"
-	"github.com/lonng/nano/scheduler"
-	"github.com/lonng/nano/session"
+	"github.com/flwwsg/nano/benchmark/io"
+	"github.com/flwwsg/nano/benchmark/testdata"
+	"github.com/flwwsg/nano/cluster"
+	"github.com/flwwsg/nano/component"
+	"github.com/flwwsg/nano/scheduler"
+	"github.com/flwwsg/nano/session"
 	. "github.com/pingcap/check"
 )
 

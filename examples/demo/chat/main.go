@@ -7,12 +7,12 @@ import (
 	"strings"
 	"time"
 
-	"github.com/lonng/nano"
-	"github.com/lonng/nano/component"
-	"github.com/lonng/nano/pipeline"
-	"github.com/lonng/nano/scheduler"
-	"github.com/lonng/nano/serialize/json"
-	"github.com/lonng/nano/session"
+	"github.com/flwwsg/nano"
+	"github.com/flwwsg/nano/component"
+	"github.com/flwwsg/nano/pipeline"
+	"github.com/flwwsg/nano/scheduler"
+	"github.com/flwwsg/nano/serialize/json"
+	"github.com/flwwsg/nano/session"
 )
 
 type (
@@ -113,7 +113,7 @@ func (mgr *RoomManager) Join(s *session.Session, msg []byte) error {
 		mgr.rooms[testRoomID] = room
 	}
 
-	fakeUID := s.ID() //just use s.ID as uid !!!
+	fakeUID := s.ID() // just use s.ID as uid !!!
 	s.Bind(fakeUID)   // binding session uids.Set(roomIDKey, room)
 	s.Set(roomIDKey, room)
 	s.Push("onMembers", &AllMembers{Members: room.group.Members()})

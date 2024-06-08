@@ -4,7 +4,7 @@ import (
 	"google.golang.org/protobuf/proto"
 	"testing"
 
-	"github.com/lonng/nano/benchmark/testdata"
+	"github.com/flwwsg/nano/benchmark/testdata"
 )
 
 func TestProtobufSerialezer_Serialize(t *testing.T) {
