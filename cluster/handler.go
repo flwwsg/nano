@@ -415,7 +415,7 @@ func (h *LocalHandler) processMessage(agent *agent, msg *message.Message) {
 		isValid := h.currentNode.Options.IsValidRequest(msg.Route, agent.session.UID())
 		if !isValid {
 			// 断开无效连接
-			println("invalid route:", msg.Route)
+			println(fmt.Errorf("invalid route: %s", msg.Route))
 			_ = agent.Close()
 		}
 	}
@@ -469,9 +469,11 @@ func (h *LocalHandler) localProcess(handler *component.Handler, lastMid uint64, 
 		}
 	}
 
-	if env.Debug {
-		log.Println(fmt.Sprintf("UID=%d, Message={%s}, Data=%+v", session.UID(), msg.String(), data))
-	}
+	// if env.Debug {
+	// 	log.Println(fmt.Sprintf("UID=%d, Message={%s}, Data=%+v", session.UID(), msg.String(), data))
+	// }
+	// always log request
+	println(fmt.Sprintf("UID=%d, Message={%s}, Data=%+v", session.UID(), msg.String(), data))
 
 	args := []reflect.Value{handler.Receiver, reflect.ValueOf(session), reflect.ValueOf(data)}
 	task := func() {

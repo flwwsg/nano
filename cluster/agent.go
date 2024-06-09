@@ -122,15 +122,24 @@ func (a *agent) Push(route string, v interface{}) error {
 		return ErrBufferExceed
 	}
 
-	if env.Debug {
-		switch d := v.(type) {
-		case []byte:
-			log.Println(fmt.Sprintf("Type=Push, ID=%d, UID=%d, Route=%s, Data=%dbytes",
-				a.session.ID(), a.session.UID(), route, len(d)))
-		default:
-			log.Println(fmt.Sprintf("Type=Push, ID=%d, UID=%d, Route=%s, Data=%+v",
-				a.session.ID(), a.session.UID(), route, v))
-		}
+	// if env.Debug {
+	// 	switch d := v.(type) {
+	// 	case []byte:
+	// 		log.Println(fmt.Sprintf("Type=Push, ID=%d, UID=%d, Route=%s, Data=%dbytes",
+	// 			a.session.ID(), a.session.UID(), route, len(d)))
+	// 	default:
+	// 		log.Println(fmt.Sprintf("Type=Push, ID=%d, UID=%d, Route=%s, Data=%+v",
+	// 			a.session.ID(), a.session.UID(), route, v))
+	// 	}
+	// }
+	// always log request, response
+	switch d := v.(type) {
+	case []byte:
+		println(fmt.Sprintf("Type=Push, ID=%d, UID=%d, Route=%s, Data=%dbytes",
+			a.session.ID(), a.session.UID(), route, len(d)))
+	default:
+		println(fmt.Sprintf("Type=Push, ID=%d, UID=%d, Route=%s, Data=%+v",
+			a.session.ID(), a.session.UID(), route, v))
 	}
 
 	return a.send(pendingMessage{typ: message.Push, route: route, payload: v})
@@ -177,15 +186,25 @@ func (a *agent) ResponseMid(mid uint64, v interface{}) error {
 		return ErrBufferExceed
 	}
 
-	if env.Debug {
-		switch d := v.(type) {
-		case []byte:
-			log.Println(fmt.Sprintf("Type=Response, ID=%d, UID=%d, MID=%d, Data=%dbytes",
-				a.session.ID(), a.session.UID(), mid, len(d)))
-		default:
-			log.Println(fmt.Sprintf("Type=Response, ID=%d, UID=%d, MID=%d, Data=%+v",
-				a.session.ID(), a.session.UID(), mid, v))
-		}
+	// if env.Debug {
+	// 	switch d := v.(type) {
+	// 	case []byte:
+	// 		log.Println(fmt.Sprintf("Type=Response, ID=%d, UID=%d, MID=%d, Data=%dbytes",
+	// 			a.session.ID(), a.session.UID(), mid, len(d)))
+	// 	default:
+	// 		log.Println(fmt.Sprintf("Type=Response, ID=%d, UID=%d, MID=%d, Data=%+v",
+	// 			a.session.ID(), a.session.UID(), mid, v))
+	// 	}
+	// }
+
+	// always log response
+	switch d := v.(type) {
+	case []byte:
+		println(fmt.Sprintf("Type=Response, ID=%d, UID=%d, MID=%d, Data=%dbytes",
+			a.session.ID(), a.session.UID(), mid, len(d)))
+	default:
+		println(fmt.Sprintf("Type=Response, ID=%d, UID=%d, MID=%d, Data=%+v",
+			a.session.ID(), a.session.UID(), mid, v))
 	}
 
 	return a.send(pendingMessage{typ: message.Response, mid: mid, payload: v})
