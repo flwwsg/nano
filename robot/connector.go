@@ -45,11 +45,12 @@ type (
 	Callback func(data interface{})
 
 	WsConnector struct {
-		client *websocket.Conn
-		codec  *codec.Decoder
-		mid    uint64      // message id
-		chSend chan []byte // send queue
-		die    chan struct{}
+		client  *websocket.Conn
+		codec   *codec.Decoder
+		mid     uint64 // message id
+		midLock sync.RWMutex
+		chSend  chan []byte // send queue
+		die     chan struct{}
 
 		// events handler
 		muEvents sync.RWMutex
@@ -130,6 +131,9 @@ func (c *WsConnector) onConnected() {
 func (c *WsConnector) request(route string, data interface{}, cb Callback) {
 	// 接口名要小写
 	route = strings.ToLower(route)
+	// 防止 go routine 大量发送消息时，冲突
+	c.midLock.Lock()
+	defer c.midLock.Unlock()
 	c.mid++
 	c.setResponseHandler(c.mid, cb)
 	c.setMidRouter(c.mid, route)
