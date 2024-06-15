@@ -21,6 +21,7 @@
 package scheduler
 
 import (
+	"fmt"
 	"runtime/debug"
 	"sync/atomic"
 	"time"
@@ -55,8 +56,7 @@ func try(f func()) {
 	defer func() {
 		if err := recover(); err != nil {
 			// 正常打印
-			println(err)
-			println("stack trace:", debug.Stack())
+			fmt.Printf("Handle message panic: %+v\n%s", err, debug.Stack())
 			// log.Println(fmt.Sprintf("Handle message panic: %+v\n%s", err, debug.Stack()))
 		}
 	}()
