@@ -415,8 +415,9 @@ func (h *LocalHandler) processMessage(agent *agent, msg *message.Message) {
 		isValid := h.currentNode.Options.IsValidRequest(msg.Route, agent.session.UID())
 		if !isValid {
 			// 断开无效连接
-			println(fmt.Errorf("invalid route: %s", msg.Route))
+			println("invalid route:", msg.Route)
 			_ = agent.Close()
+			return
 		}
 	}
 	var lastMid uint64
