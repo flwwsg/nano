@@ -415,7 +415,7 @@ func (h *LocalHandler) processMessage(agent *agent, msg *message.Message) {
 		isValid := h.currentNode.Options.IsValidRequest(msg.Route, agent.session.UID())
 		if !isValid {
 			// 断开无效连接
-			fmt.Printf("try to request route = %s with no login user uid = %d", msg.Route, agent.session.UID())
+			fmt.Printf("try to request route = %s with no login user uid = %d\n", msg.Route, agent.session.UID())
 			_ = agent.Close()
 			return
 		}
